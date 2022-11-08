@@ -1,0 +1,67 @@
+﻿<Window x:Class="TestApp.SearchDataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:TestApp"
+        xmlns:local="clr-namespace:TestApp"
+        mc:Ignorable="d"
+        Title="SearchDataWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:SearchDataVM x:Key="vm"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <vm:SearchDataVM x:Key="vm"></vm:SearchDataVM>
+        </Grid.Resources>
+        <ListBox ItemsSource="{Binding Source={StaticResource vm}, Path=CatsList, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="82" Margin="231,56,0,0" VerticalAlignment="Top" Width="189"/>
+        <TextBox local:FocusExtension.IsFocused="{Binding Source={StaticResource vm}, Path=CatNameIsFocused, Mode=TwoWay}" Text="{Binding Source={StaticResource vm}, Path=CatNameTextBox, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="71,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Source={StaticResource vm}, Path=FocusSuggestionsBoxCommand}" Key="Down"/>
+                <MouseBinding Command="{Binding Source={StaticResource vm}, Path=SuggestAllCatNamesCommand}" Gesture="LeftDoubleClick"/>
+            </TextBox.InputBindings>
+        </TextBox>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
+        <Button Command="{Binding Source={StaticResource vm}, Path=SearchCatByName}" Content="Search" HorizontalAlignment="Left" Margin="71,70,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox local:FocusExtension.IsFocused="{Binding Source={StaticResource vm}, Path=CatBreedIsFocused, Mode=TwoWay}" Text="{Binding Path=CatBreedTextBox, Mode=TwoWay, Source={StaticResource vm}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="71,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Source={StaticResource vm}, Path=FocusSuggestionsBoxCommand}" Key="Down"/>
+                <MouseBinding Command="{Binding Source={StaticResource vm}, Path=SuggestAllBreedsCommand}" Gesture="LeftDoubleClick"/>
+            </TextBox.InputBindings>
+        </TextBox>
+        <Label Content="Breed:" HorizontalAlignment="Left" Margin="10,112,0,0" VerticalAlignment="Top"/>
+        <Button Command="{Binding Source={StaticResource vm}, Path=SearchCatByBreed}" Content="Search" HorizontalAlignment="Left" Margin="71,144,0,0" VerticalAlignment="Top" Width="75"/>
+        <ListBox ItemsSource="{Binding Path=UsersList, Source={StaticResource vm}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="82" Margin="231,238,0,0" VerticalAlignment="Top" Width="371"/>
+        <TextBox local:FocusExtension.IsFocused="{Binding Source={StaticResource vm}, Path=UsernameIsFocused, Mode=TwoWay}" Text="{Binding Path=UsernameTextBox, Mode=TwoWay, Source={StaticResource vm}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="71,224,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Source={StaticResource vm}, Path=FocusSuggestionsBoxCommand}" Key="Down"/>
+                <MouseBinding Command="{Binding Source={StaticResource vm}, Path=SuggestAllUsernamesCommand}" Gesture="LeftDoubleClick"/>
+            </TextBox.InputBindings>
+        </TextBox>
+        <Label Content="User:" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top"/>
+        <Button Command="{Binding Path=SearchUserByUsername, Source={StaticResource vm}}" Content="Search" HorizontalAlignment="Left" Margin="71,252,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox local:FocusExtension.IsFocused="{Binding Source={StaticResource vm}, Path=EmailIsFocused, Mode=TwoWay}" Text="{Binding EmailTextBox, Mode=TwoWay, Source={StaticResource vm}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="71,298,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Source={StaticResource vm}, Path=FocusSuggestionsBoxCommand}" Key="Down"/>
+                <MouseBinding Command="{Binding Source={StaticResource vm}, Path=SuggestAllEmailsCommand}" Gesture="LeftDoubleClick"/>
+            </TextBox.InputBindings>
+        </TextBox>
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top"/>
+        <Button Command="{Binding SearchUserByEmail, Source={StaticResource vm}}" Content="Search" HorizontalAlignment="Left" Margin="71,326,0,0" VerticalAlignment="Top" Width="75"/>
+        <ListBox local:FocusExtension.IsFocused="{Binding Source={StaticResource vm}, Path=SuggestionsIsFocused, Mode=TwoWay}" SelectedItem="{Binding Source={StaticResource vm}, Path=SelectedSuggestion}" ItemsSource="{Binding Source={StaticResource vm}, Path=Suggestions}" HorizontalAlignment="Left" Height="146" Margin="518,56,0,0" VerticalAlignment="Top" Width="191">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}">
+                        <TextBlock.InputBindings>
+                            <MouseBinding Command="{Binding Source={StaticResource vm}, Path=SelectSuggestionCommand}" MouseAction="LeftDoubleClick"/>
+                        </TextBlock.InputBindings>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.InputBindings>
+                <KeyBinding Command="{Binding Source={StaticResource vm}, Path=SelectSuggestionCommand}" Key="Enter"/>
+                <!--<MouseBinding Command="{Binding Source={StaticResource vm}, Path=SelectSuggestionCommand}" MouseAction="LeftClick"/>-->
+            </ListBox.InputBindings>
+        </ListBox>
+    </Grid>
+</Window>
